@@ -7,15 +7,13 @@ public class Grid {
     public static final int MAX_WIDTH = 10;
     public static final int MAX_HEIGHT = 10;
 
-    private final List<Obstacle> obstacles;
+    private final List<Coordinate> obstacles;
 
-    public Grid(List<Obstacle> obstacles) {
+    public Grid(List<Coordinate> obstacles) {
         this.obstacles = obstacles;
     }
 
-    public boolean hasObstacleAt(int x, int y) {
-        return obstacles.stream().anyMatch(obstacle -> obstacle.x == x && obstacle.y == y);
+    public boolean hasObstacleAt(Coordinate coordinate) {
+        return obstacles.contains(coordinate);
     }
-
-    public record Obstacle(int x, int y){}
 }

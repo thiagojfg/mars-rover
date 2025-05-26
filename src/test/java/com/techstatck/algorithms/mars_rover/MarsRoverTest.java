@@ -93,7 +93,7 @@ public class MarsRoverTest {
             "MMMMMMRMMMMMMRMRM, 5, 5, O:6:5:W"
     })
     public void should_handle_obstacles(String commands, int obstacle_x, int obstacle_y, String expected) {
-        List<Grid.Obstacle> obstacles = List.of(new Grid.Obstacle(obstacle_x, obstacle_y));
+        List<Coordinate> obstacles = List.of(new Coordinate(obstacle_x, obstacle_y));
         MarsRover rover = new MarsRover(new Grid(obstacles));
         assertThat(rover.execute(commands), is(expected));
     }

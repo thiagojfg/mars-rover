@@ -2,43 +2,36 @@ package com.techstatck.algorithms.mars_rover;
 
 public class WestDirection implements RoverState {
 
-    private final int x;
-    private final int y;
-    private final char direction;
+    private final Coordinate coordinate;
+    private final Direction direction = Direction.WEST;
 
-    public WestDirection(int x, int y) {
-        this.x = x;
-        this.y = y;
-        this.direction = 'W';
+    public WestDirection(Coordinate coordinate) {
+        this.coordinate = coordinate;
     }
 
     @Override
-    public RoverState turnLeft() {
-        return new SouthDirection(this.x, this.y);
+    public void turnLeft(MarsRover rover) {
+        rover.setState(new SouthDirection(this.coordinate));
     }
 
     @Override
-    public RoverState turnRight() {
-        return new NorthDirection(this.x, this.y);
+    public void turnRight(MarsRover rover) {
+        rover.setState(new NorthDirection(this.coordinate));
     }
 
     @Override
-    public RoverState moveForward() {
-        return new WestDirection(this.x > 0 ? this.x - 1 : Grid.MAX_WIDTH - 1, this.y);
+    public void moveForward(MarsRover rover) {
+        Coordinate nextCoordinate = this.coordinate.nextCoordinate(this.direction);
+        rover.setState(new WestDirection(nextCoordinate));
     }
 
     @Override
-    public int getPositionAtX() {
-        return this.x;
+    public Coordinate getCoordinate() {
+        return coordinate;
     }
 
     @Override
-    public int getPositionAtY() {
-        return this.y;
-    }
-
-    @Override
-    public char getDirection() {
-        return this.direction;
+    public char getDirectionValue() {
+        return this.direction.getValue();
     }
 }

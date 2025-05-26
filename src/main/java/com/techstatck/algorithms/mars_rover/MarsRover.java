@@ -3,29 +3,36 @@ package com.techstatck.algorithms.mars_rover;
 public class MarsRover {
 
     private RoverState currentState;
+    private RoverState previousState;
     private final Grid grid;
 
     public MarsRover(Grid grid) {
         this.grid = grid;
-        this.currentState = new NorthDirection(0, 0);
+        this.currentState = new NorthDirection(Coordinate.initial());
+    }
+
+    public void setState(RoverState newState) {
+        this.previousState = this.currentState;
+        if (!grid.hasObstacleAt(newState.getCoordinate())) {
+            this.currentState = newState;
+        }
     }
 
     public String execute(String commands) {
         for (char command : commands.toCharArray()) {
-            RoverState newState = null;
             if (command == 'R') {
-                newState = currentState.turnRight();
+                currentState.turnRight(this);
             }
             if (command == 'L') {
-                newState = currentState.turnLeft();
+                currentState.turnLeft(this);
             }
             if (command == 'M') {
-                newState = currentState.moveForward();
-                if (grid.hasObstacleAt(newState.getPositionAtX(), newState.getPositionAtY())) {
-                    return "O:" + currentState.getPosition();
+                currentState.moveForward(this);
+                // If the current state and previous state are the same, an obstacle was found
+                if (previousState == currentState) {
+                    return "O:" + previousState.getPosition();
                 }
             }
-            this.currentState = newState;
         }
         return this.currentState.getPosition();
     }

@@ -1,13 +1,12 @@
 package com.techstatck.algorithms.mars_rover;
 
 public interface RoverState {
-    RoverState turnLeft();
-    RoverState turnRight();
-    RoverState moveForward();
-    int getPositionAtX();
-    int getPositionAtY();
-    char getDirection();
+    void turnLeft(MarsRover rover);
+    void turnRight(MarsRover rover);
+    void moveForward(MarsRover rover);
+    Coordinate getCoordinate();
+    char getDirectionValue();
     default String getPosition() {
-        return getPositionAtX() + ":" + getPositionAtY()+ ":" + getDirection();
+        return getCoordinate().x() + ":" + getCoordinate().y()+ ":" + getDirectionValue();
     }
 }

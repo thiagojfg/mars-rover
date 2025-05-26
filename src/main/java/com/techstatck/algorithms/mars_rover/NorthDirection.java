@@ -2,43 +2,35 @@ package com.techstatck.algorithms.mars_rover;
 
 public class NorthDirection implements RoverState {
 
-    private final int x;
-    private final int y;
-    private final char direction;
+    private final Coordinate coordinate;
+    private final Direction direction = Direction.NORTH;
 
-    public NorthDirection(int x, int y) {
-        this.x = x;
-        this.y = y;
-        this.direction = 'N';
+    public NorthDirection(Coordinate coordinate) {
+        this.coordinate = coordinate;
     }
 
     @Override
-    public RoverState turnLeft() {
-        return new WestDirection(x, y);
+    public void turnLeft(MarsRover rover) {
+        rover.setState(new WestDirection(this.coordinate));
     }
 
     @Override
-    public RoverState turnRight() {
-        return new EastDirection(x, y);
+    public void turnRight(MarsRover rover) {
+        rover.setState(new EastDirection(this.coordinate));
     }
 
     @Override
-    public RoverState moveForward() {
-        return new NorthDirection(x, (y + 1) % Grid.MAX_HEIGHT);
+    public void moveForward(MarsRover rover) {
+        rover.setState(new NorthDirection(this.coordinate.nextCoordinate(this.direction)));
     }
 
     @Override
-    public int getPositionAtX() {
-        return this.x;
+    public Coordinate getCoordinate() {
+        return coordinate;
     }
 
     @Override
-    public int getPositionAtY() {
-        return this.y;
-    }
-
-    @Override
-    public char getDirection() {
-        return this.direction;
+    public char getDirectionValue() {
+        return this.direction.getValue();
     }
 }
